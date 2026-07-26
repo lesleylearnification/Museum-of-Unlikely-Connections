@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Connect three historical exhibits and discover a research-grounded interpretation.">
+  <meta property="og:title" content="The Museum That Rearranges Itself">
+  <meta property="og:description" content="Every connection tells a deeper story.">
+  <meta property="og:image" content="assets/dashboard-concept.png">
+  <title>The Museum That Rearranges Itself</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="museum-header">
+      <div>
+        <p class="kicker">A museum of historical connections</p>
+        <h1>The Museum That Rearranges Itself</h1>
+        <p>Every connection tells a deeper story.</p>
+      </div>
+      <div class="connection-count"><span>Connections made</span><strong id="connectionCount">0</strong></div>
+    </header>
+
+    <section class="instructions">
+      <strong>Connect three exhibits.</strong>
+      <span>Choose any three objects, write the connection you see, then compare it with one curator’s research-based interpretation.</span>
+      <button id="newGalleryBtn" class="button secondary">Rearrange gallery</button>
+    </section>
+
+    <div class="workspace">
+      <section class="gallery-area" aria-label="Museum exhibits">
+        <svg id="yarnLayer" class="yarn-layer" aria-hidden="true"></svg>
+        <div id="exhibitGrid" class="exhibit-grid"></div>
+        <div class="theme-strip"><span>Curator tags discovered:</span><div id="themeTags">None yet</div></div>
+      </section>
+
+      <aside class="journal-panel">
+        <section class="journal-section">
+          <p class="journal-kicker">Investigation journal</p>
+          <h2>1. Your connection</h2>
+          <div id="selectedSummary" class="selected-summary"><div class="empty-selection">Select three exhibits.</div></div>
+          <label for="playerInsight">How are these connected, or how could they be?</label>
+          <textarea id="playerInsight" rows="6" maxlength="700" placeholder="I think these three connect because…"></textarea>
+          <button id="submitInsightBtn" class="button primary" disabled>Ask the museum curator</button>
+          <p id="journalFeedback" class="feedback" aria-live="polite"></p>
+        </section>
+
+        <section class="journal-section curator-section">
+          <h2>2. Museum Curator’s Perspective</h2>
+          <div id="curatorLoading" class="curator-loading" hidden><div class="quill-loader">✒</div><p>The curator is comparing the exhibits…</p></div>
+          <div id="curatorResult" hidden>
+            <p id="connectionParagraph" class="connection-paragraph"></p>
+            <p class="interpretive-note">This is one evidence-based interpretation, not the only possible answer.</p>
+            <fieldset class="rating-panel">
+              <legend>How closely does this match your insight?</legend>
+              <div id="starRating" class="star-rating" aria-label="Rate similarity from one to five stars">
+                <button type="button" data-rating="1" aria-label="1 star">★</button>
+                <button type="button" data-rating="2" aria-label="2 stars">★</button>
+                <button type="button" data-rating="3" aria-label="3 stars">★</button>
+                <button type="button" data-rating="4" aria-label="4 stars">★</button>
+                <button type="button" data-rating="5" aria-label="5 stars">★</button>
+              </div>
+              <p id="ratingMessage" class="rating-message">Choose a rating to unlock the library and your next connection.</p>
+            </fieldset>
+          </div>
+        </section>
+
+        <section class="journal-section">
+          <h2>3. Research library</h2>
+          <p>Explore the evidence and further reading behind the selected exhibits.</p>
+          <button id="researchBtn" class="button secondary" disabled>Open research library</button>
+        </section>
+
+        <section class="journal-section next-section">
+          <button id="saveBtn" class="button secondary" disabled>Save to cabinet</button>
+          <button id="newConnectionBtn" class="button primary" disabled>New connection</button>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <dialog id="researchDialog">
+    <article class="library-modal">
+      <button id="closeLibraryBtn" class="close-button" aria-label="Close research library">×</button>
+      <p class="library-kicker">The curator’s mini-library</p>
+      <h2>Research for your selected exhibits</h2>
+      <div id="libraryCards" class="library-cards"></div>
+      <footer>The prototype uses a curated local source list. Connect the Curator Task endpoint to retrieve and synthesize live vetted research.</footer>
+    </article>
+  </dialog>
+
+  <dialog id="cabinetDialog">
+    <article class="library-modal">
+      <button id="closeCabinetBtn" class="close-button" aria-label="Close cabinet">×</button>
+      <p class="library-kicker">Cabinet of curiosities</p>
+      <h2>Your saved connections</h2>
+      <div id="savedConnections" class="saved-connections"></div>
+    </article>
+  </dialog>
+
+  <button id="cabinetBtn" class="cabinet-button">Cabinet of Curiosities <span id="savedCount">0</span></button>
+  <script src="curator-api.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
